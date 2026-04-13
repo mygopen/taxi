@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>敬老卡叫車小幫手</title>
     
-    <link rel="icon" type="image/png" href="https://ik.imagekit.io/mygopen/icons/taxi.png?v=5">
-    <link rel="apple-touch-icon" href="https://ik.imagekit.io/mygopen/icons/taxi.png?v=5">
-    <link rel="manifest" href="manifest.json?v=5">
+    <link rel="icon" type="image/png" href="https://ik.imagekit.io/mygopen/icons/taxi.png?v=6">
+    <link rel="apple-touch-icon" href="https://ik.imagekit.io/mygopen/icons/taxi.png?v=6">
+    <link rel="manifest" href="manifest.json?v=6">
     
     <meta name="theme-color" content="#3B82F6">
 
@@ -43,7 +43,15 @@
         .page { display: none; width: 100%; max-width: 450px; flex-direction: column; align-items: center; }
         .page.active { display: flex; }
         
-        .hero-banner { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: 20px; background-color: var(--bg-primary); object-fit: cover; border: 1px solid var(--border-subtle); }
+        /* 修改這裡：去除邊框、陰影與背景色，使其融入背景 */
+        .hero-banner { 
+            width: 100%; 
+            margin-bottom: 20px; 
+            object-fit: cover; 
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+        }
         
         .saas-btn { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); font-size: 30px; font-weight: 800; padding: 20px 15px; text-align: center; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; margin-bottom: 15px; border: none; transition: var(--transition-fast); -webkit-tap-highlight-color: transparent; color: #FFFFFF; }
         .saas-btn:active { transform: translateY(2px); box-shadow: var(--shadow-sm); }
@@ -85,7 +93,9 @@
 
     <div id="page-select" class="page active">
         <img src="https://ik.imagekit.io/mygopen/taxi-banner.png" alt="叫車服務" class="hero-banner">
+        
         <h1>您現在人在哪裡？</h1>
+        
         <div class="saas-btn btn-home" onclick="showPrompt('新竹市北區武陵路175巷10號')">
             <span class="icon">🏠</span> 我在【家】
         </div>
@@ -144,7 +154,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=5').catch(err => {});
+                navigator.serviceWorker.register('sw.js?v=6').catch(err => {});
             });
         }
     </script>
