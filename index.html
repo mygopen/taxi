@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>敬老卡叫車小幫手</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFCC00">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin: 15px 0;
+            text-align: center;
+            line-height: 1.4;
+        }
+        .page {
+            display: none;
+            width: 100%;
+            max-width: 450px;
+            flex-direction: column;
+            align-items: center;
+        }
+        .page.active { display: flex; }
+        
+        /* 地點選擇按鈕樣式 */
+        .button-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+        }
+        .btn {
+            background-color: #FFCC00; 
+            color: #111;
+            border: 3px solid #E6B800;
+            border-radius: 25px;
+            padding: 25px 15px;
+            font-size: 34px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn:active { background-color: #E6B800; transform: scale(0.97); }
+        
+        /* 撥打電話按鈕 */
+        .btn-call {
+            background-color: #28a745; 
+            color: white;
+            border: none;
+            font-size: 38px;
+            padding: 25px;
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+        }
+        .btn-call:active { background-color: #1e7e34; }
+
+        .btn-back {
+            background-color: #888;
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 15px;
+            margin-top: 25px;
+            width: 80%;
+            border-radius: 15px;
+        }
+
+        .icon { font-size: 45px; margin-right: 15px; }
+        
+        /* 提詞機紅框樣式 */
+        .prompt-box {
+            background-color: white;
+            border: 6px solid #d32f2f;
+            border-radius: 20px;
+            padding: 25px 15px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .prompt-hint {
+            font-size: 26px;
+            color: #d32f2f;
+            font-weight: bold;
+            margin-bottom: 15px;
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .prompt-text {
+            font-size: 38px;
+            color: #000;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+        .highlight { color: #d32f2f; text-decoration: underline; }
+        
+        /* 敬老卡提醒藍框 */
+        .card-reminder {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #01579b;
+            font-weight: bold;
+            text-align: center;
+            background-color: #e1f5fe;
+            padding: 15px;
+            border-radius: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 2px solid #0288d1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page-select" class="page active">
+        <h1>您現在人在哪裡？<br><span style="font-size: 22px; color: #d32f2f;">(請選一個上車的地點)</span></h1>
+
+        <div class="button-grid">
+            <div class="btn" onclick="showPrompt('新竹市北區武陵路175巷10號')">
+                <span class="icon">🏠</span> 我在【家】
+            </div>
+
+            <div class="btn" onclick="showPrompt('新竹市東區光復路二段690號')">
+                <span class="icon">🏥</span> 我在【醫院】
+            </div>
+
+            <div class="btn" onclick="showPrompt('新竹市東區東門街43號')">
+                <span class="icon">⛪</span> 我在【教會】
+            </div>
+        </div>
+    </div>
+
+    <div id="page-prompt" class="page">
+        <div class="prompt-box">
+            <div class="prompt-hint">電話接通後按【9】<br>對客服唸這段話：</div>
+            <div class="prompt-text">
+                「我要叫<span class="highlight">敬老計程車</span>，<br>
+                我現在人在：<br>
+                <span id="display-address" class="highlight"></span>」
+            </div>
+        </div>
+
+        <div class="card-reminder">
+            💳 下車記得拿【敬老卡】刷卡<br>
+            <span style="font-size: 18px; color: #333;">(新竹市補助 100 點)</span>
+        </div>
+
+        <a href="tel:55688" class="btn btn-call">
+            <span class="icon">📞</span> 打給 55688
+        </a>
+
+        <div class="btn btn-back" onclick="goBack()">
+            🔙 選錯了，回上一頁
+        </div>
+    </div>
+
+    <script>
+        function showPrompt(address) {
+            // 將地址填入提詞區
+            document.getElementById('display-address').innerText = address;
+            // 切換畫面
+            document.getElementById('page-select').classList.remove('active');
+            document.getElementById('page-prompt').classList.add('active');
+            // 自動捲動到頂部
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            document.getElementById('page-prompt').classList.remove('active');
+            document.getElementById('page-select').classList.add('active');
+        }
+
+        // 註冊 PWA 功能
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => {});
+            });
+        }
+    </script>
+
+</body>
+</html>
