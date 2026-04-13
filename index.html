@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>敬老卡叫車小幫手</title>
     
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚕</text></svg>">
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FFCC00">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -14,17 +16,17 @@
             font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 10px; /* 減少 body 內邊距 */
+            padding: 10px; /* 縮減邊距防止內容切到 */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         h1 {
-            font-size: 28px;
+            font-size: 26px;
             color: #333;
-            margin: 10px 0; /* 減少標題外邊距 */
+            margin: 10px 0;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         .page {
             display: none;
@@ -39,7 +41,7 @@
         .button-grid {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* 減少按鈕間距 */
+            gap: 15px;
             width: 100%;
         }
         .btn {
@@ -47,8 +49,8 @@
             color: #111;
             border: 3px solid #E6B800;
             border-radius: 25px;
-            padding: 20px 15px; /* 減少按鈕內邊距 */
-            font-size: 32px; /* 輕微縮小按鈕字體 */
+            padding: 20px 15px;
+            font-size: 32px;
             font-weight: bold;
             text-align: center;
             cursor: pointer;
@@ -66,12 +68,15 @@
             background-color: #28a745; 
             color: white;
             border: none;
-            font-size: 34px; /* 輕微縮小撥號按鈕字體 */
-            padding: 20px; /* 減少撥號按鈕內邊距 */
-            margin-top: 15px; /* 減少撥號按鈕外邊距 */
+            font-size: 34px;
+            padding: 18px;
+            margin-top: 15px;
             width: 100%;
             border-radius: 50px;
             box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .btn-call:active { background-color: #1e7e34; }
 
@@ -79,52 +84,52 @@
             background-color: #888;
             color: white;
             border: none;
-            font-size: 22px; /* 輕微縮小灰色按鈕字體 */
-            padding: 12px; /* 減少灰色按鈕內邊距 */
-            margin-top: 15px; /* 減少灰色按鈕外邊距 */
+            font-size: 22px;
+            padding: 12px;
+            margin-top: 15px;
             width: 80%;
             border-radius: 15px;
         }
 
-        .icon { font-size: 40px; margin-right: 15px; } /* 輕微縮小圖示尺寸 */
+        .icon { font-size: 40px; margin-right: 15px; }
         
         /* 提詞機紅框樣式 */
         .prompt-box {
             background-color: white;
             border: 6px solid #d32f2f;
             border-radius: 20px;
-            padding: 20px 15px; /* 減少提詞框內邊距 */
+            padding: 15px;
             width: 100%;
             box-sizing: border-box;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .prompt-hint {
-            font-size: 24px; /* 輕微縮小提詞提示字體 */
+            font-size: 24px;
             color: #d32f2f;
             font-weight: bold;
-            margin-bottom: 10px; /* 減少提示文字與地址的間距 */
+            margin-bottom: 10px;
             background-color: #ffebee;
-            padding: 8px; /* 減少提示文字內邊距 */
+            padding: 8px;
             border-radius: 10px;
         }
         .prompt-text {
-            font-size: 36px; /* 輕微縮小提詞文字字體，但地址仍保持大字 */
+            font-size: 34px;
             color: #000;
             font-weight: bold;
-            line-height: 1.4; /* 縮小行高以節省空間 */
+            line-height: 1.4;
         }
         .highlight { color: #d32f2f; text-decoration: underline; }
         
         /* 敬老卡提醒藍框 */
         .card-reminder {
-            margin-top: 15px; /* 減少刷卡提醒外邊距 */
-            font-size: 22px; /* 輕微縮小刷卡提醒字體 */
+            margin-top: 15px;
+            font-size: 22px;
             color: #01579b;
             font-weight: bold;
             text-align: center;
             background-color: #e1f5fe;
-            padding: 12px; /* 減少刷卡提醒內邊距 */
+            padding: 10px;
             border-radius: 15px;
             width: 100%;
             box-sizing: border-box;
@@ -135,7 +140,7 @@
 <body>
 
     <div id="page-select" class="page active">
-        <h1>您現在人在哪裡？<br><span style="font-size: 22px; color: #d32f2f;">(請選一個上車的地點)</span></h1>
+        <h1>您現在人在哪裡？<br><span style="font-size: 20px; color: #d32f2f;">(請選一個上車的地點)</span></h1>
 
         <div class="button-grid">
             <div class="btn" onclick="showPrompt('新竹市北區武陵路175巷10號')">
@@ -178,9 +183,12 @@
 
     <script>
         function showPrompt(address) {
+            // 將地址填入提詞區
             document.getElementById('display-address').innerText = address;
+            // 切換畫面
             document.getElementById('page-select').classList.remove('active');
             document.getElementById('page-prompt').classList.add('active');
+            // 自動捲動到頂部確保內容可見
             window.scrollTo(0, 0);
         }
 
@@ -189,6 +197,7 @@
             document.getElementById('page-select').classList.add('active');
         }
 
+        // 註冊 PWA 功能
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').catch(err => {});
