@@ -14,7 +14,7 @@
             font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 15px;
+            padding: 10px; /* 減少 body 內邊距 */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -22,7 +22,7 @@
         h1 {
             font-size: 28px;
             color: #333;
-            margin: 15px 0;
+            margin: 10px 0; /* 減少標題外邊距 */
             text-align: center;
             line-height: 1.4;
         }
@@ -39,7 +39,7 @@
         .button-grid {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 15px; /* 減少按鈕間距 */
             width: 100%;
         }
         .btn {
@@ -47,8 +47,8 @@
             color: #111;
             border: 3px solid #E6B800;
             border-radius: 25px;
-            padding: 25px 15px;
-            font-size: 34px;
+            padding: 20px 15px; /* 減少按鈕內邊距 */
+            font-size: 32px; /* 輕微縮小按鈕字體 */
             font-weight: bold;
             text-align: center;
             cursor: pointer;
@@ -66,9 +66,9 @@
             background-color: #28a745; 
             color: white;
             border: none;
-            font-size: 38px;
-            padding: 25px;
-            margin-top: 20px;
+            font-size: 34px; /* 輕微縮小撥號按鈕字體 */
+            padding: 20px; /* 減少撥號按鈕內邊距 */
+            margin-top: 15px; /* 減少撥號按鈕外邊距 */
             width: 100%;
             border-radius: 50px;
             box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
@@ -79,52 +79,52 @@
             background-color: #888;
             color: white;
             border: none;
-            font-size: 24px;
-            padding: 15px;
-            margin-top: 25px;
+            font-size: 22px; /* 輕微縮小灰色按鈕字體 */
+            padding: 12px; /* 減少灰色按鈕內邊距 */
+            margin-top: 15px; /* 減少灰色按鈕外邊距 */
             width: 80%;
             border-radius: 15px;
         }
 
-        .icon { font-size: 45px; margin-right: 15px; }
+        .icon { font-size: 40px; margin-right: 15px; } /* 輕微縮小圖示尺寸 */
         
         /* 提詞機紅框樣式 */
         .prompt-box {
             background-color: white;
             border: 6px solid #d32f2f;
             border-radius: 20px;
-            padding: 25px 15px;
+            padding: 20px 15px; /* 減少提詞框內邊距 */
             width: 100%;
             box-sizing: border-box;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .prompt-hint {
-            font-size: 26px;
+            font-size: 24px; /* 輕微縮小提詞提示字體 */
             color: #d32f2f;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* 減少提示文字與地址的間距 */
             background-color: #ffebee;
-            padding: 10px;
+            padding: 8px; /* 減少提示文字內邊距 */
             border-radius: 10px;
         }
         .prompt-text {
-            font-size: 38px;
+            font-size: 36px; /* 輕微縮小提詞文字字體，但地址仍保持大字 */
             color: #000;
             font-weight: bold;
-            line-height: 1.5;
+            line-height: 1.4; /* 縮小行高以節省空間 */
         }
         .highlight { color: #d32f2f; text-decoration: underline; }
         
         /* 敬老卡提醒藍框 */
         .card-reminder {
-            margin-top: 20px;
-            font-size: 24px;
+            margin-top: 15px; /* 減少刷卡提醒外邊距 */
+            font-size: 22px; /* 輕微縮小刷卡提醒字體 */
             color: #01579b;
             font-weight: bold;
             text-align: center;
             background-color: #e1f5fe;
-            padding: 15px;
+            padding: 12px; /* 減少刷卡提醒內邊距 */
             border-radius: 15px;
             width: 100%;
             box-sizing: border-box;
@@ -178,12 +178,9 @@
 
     <script>
         function showPrompt(address) {
-            // 將地址填入提詞區
             document.getElementById('display-address').innerText = address;
-            // 切換畫面
             document.getElementById('page-select').classList.remove('active');
             document.getElementById('page-prompt').classList.add('active');
-            // 自動捲動到頂部
             window.scrollTo(0, 0);
         }
 
@@ -192,7 +189,6 @@
             document.getElementById('page-select').classList.add('active');
         }
 
-        // 註冊 PWA 功能
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').catch(err => {});
