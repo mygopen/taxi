@@ -5,29 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>敬老卡叫車小幫手</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚕</text></svg>">
-
+    <link rel="icon" type="image/png" href="https://ik.imagekit.io/mygopen/icons/taxi.png">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#FFCC00">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="theme-color" content="#A3E635">
+    <link rel="apple-touch-icon" href="https://ik.imagekit.io/mygopen/icons/taxi.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;800&display=swap" rel="stylesheet">
 
     <style>
+        /* =========================================
+           Neo-Brutalism (S11) Design Tokens 
+           ========================================= */
+        :root {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F3F3F3;
+            --text-primary: #000000;
+            
+            /* S11 指定鮮豔色彩搭配計程車黃 */
+            --brand-lime: #A3E635;
+            --brand-indigo: #818CF8;
+            --brand-rose: #FB7185;
+            --brand-taxi: #FFCC00; 
+            
+            --border-strong: #000000;
+            --border-width: 4px;
+            --border-radius: 4px; /* 極小圓角 */
+            
+            --shadow-hard: 6px 6px 0px #000000;
+            --shadow-extreme: 10px 10px 0px #000000;
+            
+            --font-sans: 'Lexend', "PingFang TC", "Microsoft JhengHei", sans-serif;
+        }
+
         body {
-            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
-            background-color: #f4f4f4;
+            font-family: var(--font-sans);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
             margin: 0;
-            padding: 10px; /* 縮減邊距防止內容切到 */
+            padding: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
+        /* 標題樣式 */
         h1 {
-            font-size: 26px;
-            color: #333;
-            margin: 10px 0;
+            font-size: 32px;
+            font-weight: 800;
             text-align: center;
-            line-height: 1.3;
+            line-height: 1.2;
+            margin: 15px 0;
+            letter-spacing: -0.02em;
         }
+
+        /* 頁面容器 */
         .page {
             display: none;
             width: 100%;
@@ -36,159 +67,174 @@
             align-items: center;
         }
         .page.active { display: flex; }
-        
-        /* 地點選擇按鈕樣式 */
-        .button-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+
+        /* 首頁 Banner 圖片 (Neo-Brutalism 風格) */
+        .hero-banner {
             width: 100%;
+            border: var(--border-width) solid var(--border-strong);
+            box-shadow: var(--shadow-hard);
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            background-color: var(--bg-primary);
+            object-fit: cover;
         }
-        .btn {
-            background-color: #FFCC00; 
-            color: #111;
-            border: 3px solid #E6B800;
-            border-radius: 25px;
+        
+        /* === 粗野主義按鈕共用樣式 === */
+        .brutal-btn {
+            width: 100%;
+            border: var(--border-width) solid var(--border-strong);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-hard);
+            color: var(--text-primary);
+            font-size: 30px;
+            font-weight: 800;
             padding: 20px 15px;
-            font-size: 32px;
-            font-weight: bold;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
+            margin-bottom: 15px;
+            transition: all 0.1s linear; /* S11 要求快速線性動畫 */
             -webkit-tap-highlight-color: transparent;
         }
-        .btn:active { background-color: #E6B800; transform: scale(0.97); }
         
-        /* 撥打電話按鈕 */
-        .btn-call {
-            background-color: #28a745; 
-            color: white;
-            border: none;
-            font-size: 34px;
-            padding: 18px;
-            margin-top: 15px;
-            width: 100%;
-            border-radius: 50px;
-            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* 點擊時的下壓物理效果 */
+        .brutal-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0px #000000;
         }
-        .btn-call:active { background-color: #1e7e34; }
 
+        /* 個別按鈕顏色配置 */
+        .btn-home { background-color: var(--brand-taxi); }
+        .btn-hospital { background-color: var(--brand-lime); }
+        .btn-church { background-color: var(--brand-indigo); }
+        .btn-call { 
+            background-color: var(--brand-lime); 
+            font-size: 36px; 
+            padding: 25px;
+            margin-top: 10px;
+        }
         .btn-back {
-            background-color: #888;
-            color: white;
-            border: none;
+            background-color: var(--bg-primary);
             font-size: 22px;
-            padding: 12px;
-            margin-top: 15px;
-            width: 80%;
-            border-radius: 15px;
+            padding: 15px;
+            margin-top: 10px;
         }
 
         .icon { font-size: 40px; margin-right: 15px; }
-        
-        /* 提詞機紅框樣式 */
-        .prompt-box {
-            background-color: white;
-            border: 6px solid #d32f2f;
-            border-radius: 20px;
+
+        /* === 提詞機視窗 (Neo-Brutalism 卡片) === */
+        .brutal-card {
+            background-color: var(--bg-primary);
+            border: var(--border-width) solid var(--border-strong);
+            box-shadow: var(--shadow-extreme);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .prompt-hint {
+            font-size: 24px;
+            font-weight: 800;
+            background-color: var(--brand-taxi);
+            border: 3px solid var(--border-strong);
+            padding: 10px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .prompt-text {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        .highlight-text {
+            background-color: var(--brand-rose);
+            color: white;
+            padding: 0 8px;
+            border: 3px solid var(--border-strong);
+        }
+
+        .address-text {
+            display: inline-block;
+            margin-top: 10px;
+            border-bottom: 5px solid var(--border-strong);
+        }
+
+        /* 敬老卡提醒區塊 */
+        .card-reminder {
+            background-color: var(--brand-indigo);
+            color: white;
+            border: var(--border-width) solid var(--border-strong);
+            box-shadow: var(--shadow-hard);
+            font-size: 22px;
+            font-weight: 800;
             padding: 15px;
             width: 100%;
             box-sizing: border-box;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .prompt-hint {
-            font-size: 24px;
-            color: #d32f2f;
-            font-weight: bold;
-            margin-bottom: 10px;
-            background-color: #ffebee;
-            padding: 8px;
-            border-radius: 10px;
-        }
-        .prompt-text {
-            font-size: 34px;
-            color: #000;
-            font-weight: bold;
-            line-height: 1.4;
-        }
-        .highlight { color: #d32f2f; text-decoration: underline; }
-        
-        /* 敬老卡提醒藍框 */
-        .card-reminder {
-            margin-top: 15px;
-            font-size: 22px;
-            color: #01579b;
-            font-weight: bold;
-            text-align: center;
-            background-color: #e1f5fe;
-            padding: 10px;
-            border-radius: 15px;
-            width: 100%;
-            box-sizing: border-box;
-            border: 2px solid #0288d1;
+            margin-bottom: 15px;
+            border-radius: var(--border-radius);
         }
     </style>
 </head>
 <body>
 
     <div id="page-select" class="page active">
-        <h1>您現在人在哪裡？<br><span style="font-size: 20px; color: #d32f2f;">(請選一個上車的地點)</span></h1>
+        
+        <img src="https://ik.imagekit.io/mygopen/taxi-banner.png" alt="叫車服務" class="hero-banner">
 
-        <div class="button-grid">
-            <div class="btn" onclick="showPrompt('新竹市北區武陵路175巷10號')">
-                <span class="icon">🏠</span> 我在【家】
-            </div>
+        <h1>您現在人在哪裡？</h1>
 
-            <div class="btn" onclick="showPrompt('新竹市東區光復路二段690號')">
-                <span class="icon">🏥</span> 我在【醫院】
-            </div>
+        <div class="brutal-btn btn-home" onclick="showPrompt('新竹市北區武陵路175巷10號')">
+            <span class="icon">🏠</span> 我在【家】
+        </div>
 
-            <div class="btn" onclick="showPrompt('新竹市東區東門街43號')">
-                <span class="icon">⛪</span> 我在【教會】
-            </div>
+        <div class="brutal-btn btn-hospital" onclick="showPrompt('新竹市東區光復路二段690號')">
+            <span class="icon">🏥</span> 我在【醫院】
+        </div>
+
+        <div class="brutal-btn btn-church" onclick="showPrompt('新竹市東區東門街43號')">
+            <span class="icon">⛪</span> 我在【教會】
         </div>
     </div>
 
     <div id="page-prompt" class="page">
-        <div class="prompt-box">
-            <div class="prompt-hint">電話接通後按【9】<br>對客服唸這段話：</div>
+        
+        <div class="brutal-card">
+            <div class="prompt-hint">接通後按【9】並唸出：</div>
             <div class="prompt-text">
-                「我要叫<span class="highlight">敬老計程車</span>，<br>
+                「我要叫<span class="highlight-text">敬老車</span>」<br>
                 我現在人在：<br>
-                <span id="display-address" class="highlight"></span>」
+                <span id="display-address" class="address-text"></span>
             </div>
         </div>
 
         <div class="card-reminder">
             💳 下車記得拿【敬老卡】刷卡<br>
-            <span style="font-size: 18px; color: #333;">(新竹市補助 100 點)</span>
+            <span style="font-size: 18px; font-weight: 500;">(新竹市補助 100 點)</span>
         </div>
 
-        <a href="tel:55688" class="btn btn-call">
+        <a href="tel:55688" class="brutal-btn btn-call">
             <span class="icon">📞</span> 打給 55688
         </a>
 
-        <div class="btn btn-back" onclick="goBack()">
+        <div class="brutal-btn btn-back" onclick="goBack()">
             🔙 選錯了，回上一頁
         </div>
     </div>
 
     <script>
         function showPrompt(address) {
-            // 將地址填入提詞區
             document.getElementById('display-address').innerText = address;
-            // 切換畫面
             document.getElementById('page-select').classList.remove('active');
             document.getElementById('page-prompt').classList.add('active');
-            // 自動捲動到頂部確保內容可見
             window.scrollTo(0, 0);
         }
 
@@ -197,7 +243,6 @@
             document.getElementById('page-select').classList.add('active');
         }
 
-        // 註冊 PWA 功能
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').catch(err => {});
